@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome blabla bla Eventifier</title>
+	<title>Welcome blablabla Eventifier</title>
 
 	<style type="text/css">
 
