@@ -1,5 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+   $query = $this->db->query("SELECT * FROM users");
+
+	 $data = array(
+   'user_name' => 'test',
+   'password' => 'test'
+);
+
+$this->db->insert("users", $data);
+
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,10 +78,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
-	<h1>Welcome to Eventifier!</h1>
+	<h1>Welcome Eventifier!</h1>
 
 	<div id="body">
 		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
+
+		<?php if ($query->num_rows() >0): ?>
+			<p><?=$query?>->result();</p>
+		<?php endif ?>
 
 		<p>If you would like to edit this page you'll find it located at:</p>
 		<code>application/views/welcome_message.php</code>
