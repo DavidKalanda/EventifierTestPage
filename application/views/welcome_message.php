@@ -17,9 +17,13 @@ $this->db->insert("users", $data);
 	<title>Welcome blablabla Eventifier</title>
 
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="welcomepage.css">
+  <link rel="stylesheet" href="/Public/welcomepage.css">
 
-	</style>
+  <!-- /*<style type="text/css">
+	::selection { background-color: #E13300; color: white; }
+	::-moz-selection { background-color: #E13300; color: white; }
+	</style>*/ -->
+
 </head>
 <body>
 
