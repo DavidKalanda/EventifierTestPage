@@ -73,27 +73,28 @@ class Users extends CI_Controller{
           $this->form_validation->set_rules('password', 'password', 'required');
           $this->form_validation->set_rules('conf_password', 'confirm password', 'required|matches[password]');
 
+          // to hash the password use md5($this->input->post('password'))
           $userData = array(
-              'name' => strip_tags($this->input->post('name')),
+              'user_name' => strip_tags($this->input->post('user_name')),
               //'email' => strip_tags($this->input->post('email')),
-              'password' => md5($this->input->post('password')),
+              'password' => $this->input->post('password'),
               //'gender' => $this->input->post('gender'),
               //'phone' => strip_tags($this->input->post('phone'))
           );
 
           if($this->form_validation->run() == true){
-              $insert = $this->user->insert($userData);
+              $insert = $this->db->insert('users',$userData);
               if($insert){
                   $this->session->set_userdata('success_msg', 'Your registration was successfully. Please login to your account.');
-                  redirect('users/login');
+                  $this->load->view('homepage');
               }else{
                   $data['error_msg'] = 'Some problems occured, please try again.';
               }
           }
       }
-      $data['user'] = $userData;
+      $data['user_name'] = $userData;
       //load the view
-      $this->load->view('users/signup', $data);
+      $this->load->view('homepage', $data);
   }
 
   // IF user enters right data
