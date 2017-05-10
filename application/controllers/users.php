@@ -25,11 +25,11 @@ class Users extends CI_Controller{
   // Validates the login information
   public function login_validation(){
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('user','user','required');
+    $this->form_validation->set_rules('user_name','user_name','required');
     $this->form_validation->set_rules('password','password','required');
     if ($this->form_validation->run())
     {
-      $user = $this->input->post('user');
+      $user = $this->input->post('user_name');
       $password = $this->input->post('password');
       // model function
       $this->load->model('model_users');
@@ -61,33 +61,40 @@ class Users extends CI_Controller{
     $this->load->view('signup');
   }
 
-  // Validate and store registration data in database
-public function new_user_registration()
-{
-  // Check validation for user input in SignUp form
-  $this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean');
-  $this->form_validation->set_rules('email_value', 'Email', 'trim|required|xss_clean');
-  $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-  if ($this->form_validation->run() == FALSE) {
-  $this->load->view('registration_form');
-  } else {
-    $data = array(
-    'user_name' => $this->input->post('username'),
-    'user_email' => $this->input->post('email_value'),
-    'user_password' => $this->input->post('password')
-    );
-    $result = $this->login_database->registration_insert($data);
-    if ($result == TRUE) {
-    $data['message_display'] = 'Registration Successfully !';
-    $this->load->view('login_form', $data);
-    } else {
-    $data['message_display'] = 'Username already exist!';
-    $this->load->view('registration_form', $data);
-    }
+  /*
+     * User registration
+     */
+  public function user_registration(){
+      $data = array();
+      $userData = array();
+      if($this->input->post('regisSubmit')){
+          $this->form_validation->set_rules('user_name', 'user_name', 'required');
+          //$this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check');
+          $this->form_validation->set_rules('password', 'password', 'required');
+          $this->form_validation->set_rules('conf_password', 'confirm password', 'required|matches[password]');
+
+          $userData = array(
+              'name' => strip_tags($this->input->post('name')),
+              //'email' => strip_tags($this->input->post('email')),
+              'password' => md5($this->input->post('password')),
+              //'gender' => $this->input->post('gender'),
+              //'phone' => strip_tags($this->input->post('phone'))
+          );
+
+          if($this->form_validation->run() == true){
+              $insert = $this->user->insert($userData);
+              if($insert){
+                  $this->session->set_userdata('success_msg', 'Your registration was successfully. Please login to your account.');
+                  redirect('users/login');
+              }else{
+                  $data['error_msg'] = 'Some problems occured, please try again.';
+              }
+          }
+      }
+      $data['user'] = $userData;
+      //load the view
+      $this->load->view('users/signup', $data);
   }
-}
-
-
 
   // IF user enters right data
   // public function enter(){
