@@ -11,9 +11,10 @@ class model_users extends CI_Model{
     return $query->result_array();
   }
 
+  // Checks the database to see if the user exists
   public function can_login($user, $password)
   {
-    $this->db->where('user', $user);
+    $this->db->where('user_name', $user);
     $this->db->where('password', $password);
     $query = $this->db->get('users');
 
