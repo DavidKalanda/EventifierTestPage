@@ -29,14 +29,14 @@ class Users extends CI_Controller{
     $this->form_validation->set_rules('password','password','required');
     if ($this->form_validation->run())
     {
-      $user = $this->input->post('user_name');
+      $user_name = $this->input->post('user_name');
       $password = $this->input->post('password');
       // model function
       $this->load->model('model_users');
-      if ($this->model_users->can_login($user,$password)) {
+      if ($this->model_users->can_login($user_name,$password)) {
         /// stores user in session
         $session_data = array(
-          'user'=> $user
+          'user_name'=> $user_name
         );
         $this->session->set_userdata($session_data);
         //complete with redirect location homepage
